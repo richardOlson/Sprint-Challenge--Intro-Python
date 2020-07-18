@@ -105,10 +105,47 @@ for c in cities:
 
 # TODO Get latitude and longitude values from the user
 
+# Getting the values from the user
+fList = None
+sList = None
+while True:
+  first = input("Enter lat1,lon1: ")
+  # spliting
+  fList = first.split()
+  try :
+    fList[0] = float(flist[0])
+    flist[1] = float(fList[1])
+    break
+  except:
+    print("Make sure that you enter numbers!\n")
+  
+  while True:
+    second = input("Enter lat2,lon2: ")
+    # splitting
+    sList = second.split()
+    try:
+      sList[0] = float(sList[0])
+      sList[1] = float(sList[1])
+      break
+    except:
+      print("Make sure that you enter numbers!\n")
+  
+
+# Will be using the lon as the x val and lat as the y val
+
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
   within = []
-  
+  # finding the lowest longitude min = a if a < b else b 
+  leftSide  = lon1 if lon1 < lon2 else lon2
+  rigtSide = lon1 if lon1 > lon2 else lon2
+  top = lat1 if lat1 > lat2 else lat2
+  bottom = lat1 if lat1 < lat2 else lat2
+
+  for city in cities:
+    if city.lon > leftSide and city.lon < rigtSide and city.lat < top and city.lat > bottom:
+      within.append(city)
+
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
 
