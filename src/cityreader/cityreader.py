@@ -1,6 +1,17 @@
 # Create a class to hold a city location. Call the class "City". It should have
 # fields for name, lat and lon (representing latitude and longitude).
 
+# Creating the class called City
+class City():
+  def __init__(self, name, lat, lon):
+    self.name = name 
+    self.lat = lat
+    self.lon = lon
+
+  # making a __str method to be able to 
+  # print out object
+  def __str__(self):
+    return f"{self.name}, {self.lat}, {self.lon}"
 
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
@@ -16,16 +27,49 @@
 # should not be loaded into a City object.
 cities = []
 
+# going to get the path to the cities file
+import os
+import csv
+
+
 def cityreader(cities=[]):
+
+  # put the path in the method so that it wouldn't 
+  # mess up the test file hopefully
+  csv_path = os.path.join(os.path.dirname(__file__), "cities.csv")
+
+  theLat = None
+  theLon = None
+  # reading in the file
+  with open(csv_path) as csv_file:
+    my_reader = csv.DictReader(csv_file)
+    for i, row in enumerate(my_reader):
+      if i == 0:
+        pass
+        #print((f'Column names are {", ".join(row)}'))
+      # building the city then appending to the cities list
+
+      # ensuring the the types of values are floats
+      theLat = row["lat"]
+      theLon = row["lng"]
+      if not isinstance(theLat, float):
+         theLat = float(theLat)
+      if not isinstance(theLon, float):
+        theLon = float(theLon)
+      cities.append(City(name=row["city"], lat=theLat, lon=theLon))
+
+
   # TODO Implement the functionality to read from the 'cities.csv' file
   # Ensure that the lat and lon valuse are all floats
   # For each city record, create a new City instance and add it to the 
   # `cities` list
     
-    return cities
+  return cities
 
 cityreader(cities)
 
+
+    
 # Print the list of cities (name, lat, lon), 1 record per line.
 for c in cities:
     print(c)
